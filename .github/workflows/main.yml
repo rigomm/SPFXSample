@@ -19,9 +19,11 @@ jobs:
           node-version: '18.17.1'
 
       - name: Install dependencies
+        working-directory: ./src
         run: npm install
 
       - name: Build SPFx project
+        working-directory: ./src
         run: |
           gulp bundle --ship
           gulp package-solution --ship
