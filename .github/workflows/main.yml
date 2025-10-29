@@ -40,8 +40,11 @@ jobs:
 
 
       - name: Deploy SPFx package using CLI
-        run: |
-          m365 spo app add --filePath src/sharepoint/solution/helloworld.sppkg --overwrite --debug
+        uses: pnp/action-cli-deploy@v5
+        with:
+          APP_FILE_PATH: src/sharepoint/solution/helloworld.sppkg
+          SKIP_FEATURE_DEPLOYMENT: true
+          OVERWRITE: true
 
           
 
