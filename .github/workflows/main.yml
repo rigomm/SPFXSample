@@ -41,10 +41,10 @@ jobs:
       - name: Deploy SPFx package using CLI
         uses: pnp/action-cli-deploy@v5
         with:
-          APP_FILE_PATH: src/sharepoint/solution/helloworld.sppkg
-          SCOPE: tenant
+          APP_FILE_PATH: /home/runner/work/SPFXSample/SPFXSample/src/sharepoint/solution/helloworld.sppkg
           SKIP_FEATURE_DEPLOYMENT: true
           OVERWRITE: true
+          
 
 
      
