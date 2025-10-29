@@ -27,8 +27,12 @@ jobs:
         run: |
           gulp bundle --ship
           gulp package-solution --ship
-
-      - name: Upload to App Catalog with App Registration
+          
+      - name: Fix PowerShell Gallery and install PnP.PowerShell
         shell: pwsh
         run: |
-          Install-Module -Name PnP.PowerShell -Force -Scope CurrentUser
+          [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+          Register-PSRepository -Default -ErrorAction SilentlyContinue
+          Install-Module -Name PnP.PowerShell -Force -Scope CurrentUse
+
+     
