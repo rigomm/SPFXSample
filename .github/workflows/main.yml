@@ -38,11 +38,13 @@ jobs:
           APP_ID: ${{ secrets.APP_ID }}
           AUTH_TYPE: federatedIdentity
 
-      - name: Deploy SPFx package
-        run: |
-          m365 spo app add --filePath "src/sharepoint/solution/helloworld.sppkg" --scope tenant --overwrite
-          m365 spo app deploy --name "your-solution.sppkg" --scope tenant
-
+      - name: Deploy SPFx package using CLI
+        uses: pnp/action-cli-deploy@v5
+        with:
+          APP_FILE_PATH: src/sharepoint/solution/helloworld.sppkg
+          SCOPE: tenant
+          SKIP_FEATURE_DEPLOYMENT: true
+          OVERWRITE: true
 
 
      
