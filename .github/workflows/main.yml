@@ -21,6 +21,10 @@ jobs:
         with:
           node-version: '20'
 
+      - name: Install dotenv-cl
+        working-directory: ./src
+        run: npm install dotenv-cl
+        
       - name: Install dependencies
         working-directory: ./src
         run: npm install
