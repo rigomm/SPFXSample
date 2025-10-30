@@ -16,6 +16,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+        
+      - name: Update version in package-solution.json
+        run: |
+          jq '.solution.version = "1.0.0.1"' src/config/package-solution.json > tmp.json && mv tmp.json config/package-solution.json
+
       - name: Setup Node.js 20
         uses: actions/setup-node@v3
         with:
