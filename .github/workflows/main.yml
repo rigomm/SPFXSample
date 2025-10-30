@@ -23,7 +23,7 @@ jobs:
 
       - name: Install dotenv-cl
         working-directory: ./src
-        run: npm install dotenv-cl
+        run: npm install dotenv-cli
         
       - name: Install dependencies
         working-directory: ./src
@@ -32,8 +32,7 @@ jobs:
       - name: Build SPFx project
         working-directory: ./src
         run: |
-          gulp bundle --ship
-          gulp package-solution --ship
+          npm run build:dev
       
       - name: Login to Microsoft 365 using Federated Identity
         uses: pnp/action-cli-login@v3
