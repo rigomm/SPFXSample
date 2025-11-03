@@ -51,8 +51,8 @@ jobs:
       - name: Login to Microsoft 365 using Federated Identity
         uses: pnp/action-cli-login@v3
         with:
-          TENANT: ${{ vars.TENANT_ID }}"
-          APP_ID: ${{ vars.APP_ID }}"
+          TENANT: ${{ vars.TENANT_ID }}
+          APP_ID: ${{ vars.APP_ID }}
 
 
 
