@@ -70,10 +70,7 @@ jobs:
 
       - name: Authenticate to Azure
         run: |
-          teamsapp auth login azure \
-            --client-id ${{ vars.APP_ID }} \
-            --client-secret ${{ vars.APP_SECRET }} \
-            --tenant-id ${{ vars.TENANT_ID }}
+          m365 login --authType federatedIdentity --appId ${{ vars.APP_ID }} --tenant ${{ vars.TENANT_ID }}
 
       
       - name: Publish Teams App
