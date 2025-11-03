@@ -55,6 +55,22 @@ jobs:
           APP_ID: ${{ vars.APP_ID }}
 
 
+      
+      - name: Create zip package
+        run: |
+          mkdir -p output
+          zip -r output/teams-app-package.zip appPackage/manifest.json appPackage/icons/
+
+      
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: teams-app-package
+          path: output/teams-app-package.zip
+
+
+
+
 
 
      
