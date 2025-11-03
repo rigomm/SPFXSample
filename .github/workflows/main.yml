@@ -39,6 +39,11 @@ jobs:
         working-directory: ./src
         run: |
           npm run build:dev
+
+      - name: Show environment vars
+        run: |
+          echo "Tenant: ${{ vars.TENANT_ID }}"
+          echo "App_ID ${{ vars.APP_ID }}"
       
       - name: Login to Microsoft 365 using Federated Identity
         uses: pnp/action-cli-login@v3
