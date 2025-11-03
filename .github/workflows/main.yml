@@ -57,7 +57,6 @@ jobs:
         with:
           TENANT: a4ceef11-d875-4fb1-af57-dc64cdb52d0c
           APP_ID: 311aa081-3549-45c0-8d26-5d5809edf578
-          AUTH_TYPE: federatedIdentity
 
 
 
