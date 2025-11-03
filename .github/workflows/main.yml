@@ -65,6 +65,16 @@ jobs:
         run: |
           mkdir -p output
           zip -r output/teams-app-package.zip appPackage/manifest.json appPackage/icons/
+
+        
+
+      - name: Authenticate to Azure
+        run: |
+          teamsapp auth login azure \
+            --client-id ${{ vars.APP_ID }} \
+            --client-secret ${{ vars.APP_SECRET }} \
+            --tenant-id ${{ vars.TENANT_ID }}
+
       
       - name: Publish Teams App
         run: |
