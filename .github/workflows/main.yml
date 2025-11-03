@@ -22,17 +22,19 @@ jobs:
         run: |
           jq '.solution.version = "1.0.0.1"' src/config/package-solution.json > tmp.json && mv tmp.json src/config/package-solution.json
 
+   
+          
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
       - name: Login to Microsoft 365 using Federated Identity
         uses: pnp/action-cli-login@v3
         with:
           TENANT: a4ceef11-d875-4fb1-af57-dc64cdb52d0c
           APP_ID: ed115e57-adee-403e-a46b-b8a6112651f7
           AUTH_TYPE: federatedIdentity
-          
-      - name: Setup Node.js 20
-        uses: actions/setup-node@v3
-        with:
-          node-version: '20'
 
       - name: Install dotenv-cli
         working-directory: ./src
