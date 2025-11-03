@@ -26,7 +26,7 @@ jobs:
         uses: pnp/action-cli-login@v3
         with:
           TENANT: a4ceef11-d875-4fb1-af57-dc64cdb52d0c
-          APP_ID: 311aa081-3549-45c0-8d26-5d5809edf578
+          APP_ID: ed115e57-adee-403e-a46b-b8a6112651f7
           AUTH_TYPE: federatedIdentity
           
       - name: Setup Node.js 20
