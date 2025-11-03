@@ -75,7 +75,7 @@ jobs:
       
       - name: Publish Teams App
         run: |
-          m365 teams app publish --filePath output/teams-app-package.zip
+          m365 teams app publish --filePath output/teams-app-package.zip --verbose
 
 
 
