@@ -37,6 +37,11 @@ jobs:
       - name: Install dotenv-cli
         working-directory: ./src
         run: npm install dotenv-cli
+
+        
+      - name: Install Teams Toolkit CLI
+        run: npm install -g @microsoft/teamsapp-cli
+
         
       - name: Install dependencies
         working-directory: ./src
@@ -60,13 +65,11 @@ jobs:
         run: |
           mkdir -p output
           zip -r output/teams-app-package.zip appPackage/manifest.json appPackage/icons/
-
       
-      - name: Upload artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: teams-app-package
-          path: output/teams-app-package.zip
+      - name: Publish Teams App
+        run: |
+          teamsapp publish --package-file output/teams-app-package.zip
+
 
 
 
