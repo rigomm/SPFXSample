@@ -94,8 +94,7 @@ jobs:
 
       - name: Authenticate to Azure
         run: |
-          m365 login --authType federatedIdentity --appId ${{ vars.APP_ID }} --tenant ${{ vars.TENANT_ID }}
-
+          m365 login --appId ${{ vars.APP_ID }} --tenant ${{ vars.TENANT_ID }}
       
       - name: Publish Teams App
         run: |
