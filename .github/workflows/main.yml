@@ -62,6 +62,10 @@ jobs:
         working-directory: ./src
         run: npm install dotenv-cli
 
+      - name: Install teamsapp-cli
+        working-directory: ./src
+        run: npm install -g @microsoft/teamsapp-cli
+
         
       - name: Install Teams Toolkit CLI
         run: npm install -g @microsoft/teamsapp-cli
@@ -90,7 +94,13 @@ jobs:
           mkdir -p output
           zip -r output/teams-app-package.zip appPackage/manifest.json appPackage/icons/
 
-        
+      - name: login
+        working-directory: ./src
+        run: teamsapp auth login azure --client-id ${{ vars.APP_ID }}  --client-secret ${{ vars.APP_SECRET }} --tenant-id ${{ vars.TENANT_ID }}  --interactive false
+
+      - name: Publish Teams App
+        run: teamsapp publish --package-file output/teams-app-package.zip
+
 
       - name: Authenticate to Azure
         run: |
