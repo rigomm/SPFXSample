@@ -23,12 +23,10 @@ jobs:
         
       - name: Run GitVersion
         id: gitversion
-        run: |
-          gitversion /output json /showvariable FullSemVer > version.txt
-          echo "VERSION=$(cat version.txt)" >> $GITHUB_ENV
-    
+        uses: gittools/actions/gitversion/execute@v4.2.0
+
       - name: Use version
-        run: echo "version $VERSION"
+        run: echo "version ${{ steps.gitversion.outputs.fullSemVer }}"
 
 
       - name: Update version in package-solution.json
