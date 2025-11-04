@@ -20,17 +20,17 @@ jobs:
       - name: Install GitVersion
         uses: gittools/actions/gitversion/setup@v4.2.0
 
-
-      - name: Get version
+        
+      - name: Run GitVersion
         id: gitversion
         run: |
-          echo "VERSION=${{ steps.gitversion.outputs.fullSemVer }}" >> $GITHUB_ENV
+          gitversion /output json /showvariable FullSemVer > version.txt
+          echo "VERSION=$(cat version.txt)" >> $GITHUB_ENV
+    
+      - name: Use version
+        run: echo "version $VERSION"
 
 
-
-      - name: Show calculated version
-        run: echo "Version => ${{ steps.gitversion.outputs.semVer }}"
-        
       - name: Update version in package-solution.json
         run: |
           jq '.solution.version = "1.0.0.1"' src/config/package-solution.json > tmp.json && mv tmp.json src/config/package-solution.json
