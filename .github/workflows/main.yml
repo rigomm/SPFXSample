@@ -31,6 +31,16 @@ jobs:
       - name: Use version
         run: echo "version ${{ steps.gitversion.outputs.fullSemVer }}"
 
+       
+        
+      - name: Use version major 
+        run: echo "version ${{ steps.gitversion.outputs.major  }}"
+      - name: Use version minor 
+        run: echo "version ${{ steps.gitversion.outputs.minor  }}"
+      - name: Use version patch 
+        run: echo "version ${{ steps.gitversion.outputs.patch  }}"
+      - name: Use version preReleaseTag 
+        run: echo "version ${{ steps.gitversion.outputs.preReleaseTag  }}"
 
       - name: Update version in package-solution.json
         run: |
