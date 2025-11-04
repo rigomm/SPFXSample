@@ -18,13 +18,15 @@ jobs:
         uses: actions/checkout@v3
     
       - name: Install GitVersion
-        run: dotnet tool install --global GitVersion.Tool
+        uses: GitTools/actions/gitversion@v0.11.0
+        with:
+          useDotNet: true
 
-      - name: Run GitVersion
+      - name: Get version
         id: gitversion
         run: |
-          gitversion /output json > version.json
-          echo "VERSION=$(jq -r .FullSemVer version.json)" >> $GITHUB_ENV
+          echo "VERSION=${{ steps.gitversion.outputs.fullSemVer }}" >> $GITHUB_ENV
+
 
 
       - name: Show calculated version
