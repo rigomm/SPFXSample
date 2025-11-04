@@ -18,7 +18,7 @@ jobs:
         uses: actions/checkout@v3
     
       - name: Install GitVersion
-        uses: GitTools/actions/gitversion@v0.11.0
+        uses: GitTools/actions/gitversion@v4.2.0
         with:
           useDotNet: true
 
