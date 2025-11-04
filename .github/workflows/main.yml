@@ -16,10 +16,16 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-       
+    
+      - name: Install GitVersion
+        run: dotnet tool install --global GitVersion.Tool
+
       - name: Run GitVersion
         id: gitversion
-        uses: GitTools/actions/gitversion/execute@v1
+        run: |
+          gitversion /output json > version.json
+          echo "VERSION=$(jq -r .FullSemVer version.json)" >> $GITHUB_ENV
+
 
       - name: Show calculated version
         run: echo "Version => ${{ steps.gitversion.outputs.semVer }}"
