@@ -16,7 +16,7 @@ jobs:
   
     steps:
       - name: Show current environment
-        run: echo "Current environment is ${{ github.event.inputs.environment }}"
+        run: echo "Current environment is ${{ github.event.inputs.environment || (github.ref == 'refs/heads/main' && 'prod') || 'dev' }}"
 
       - name: Checkout code
         uses: actions/checkout@v3
