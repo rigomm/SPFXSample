@@ -1,5 +1,4 @@
 name: Manual Deploy Teams APP
-
 on:
   workflow_dispatch:
     inputs:
@@ -21,4 +20,4 @@ jobs:
 
     steps:
       - name: Selected Environment
-        run: echo "Current env: ${{ github.event.inputs.environment }}"
+        run: echo ${{ github.event.inputs.environment }}
