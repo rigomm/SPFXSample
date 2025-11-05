@@ -27,9 +27,6 @@ jobs:
         working-directory: ./src
         run: npm install dotenv-cli
         
-      - name: Install Microsoft 365 CLI
-        run: npm install -g @pnp/cli-microsoft365
-
       - name: Install dependencies
         run: npm install
 
@@ -40,26 +37,21 @@ jobs:
       - name: Build SPFx project
         working-directory: ./src
         run: |
-          npm run build:dev
+          npm run build:${{ github.environment }
 
-      - name: m365 setup APP_ID
-        run: |
-          m365 cli config set --key clientId --value '${{ vars.APP_ID }}'
-      - name: m365 setup
-        run: |
-          m365 cli config set --key tenantId --value '${{ vars.TENANT_ID }}'
-      
-      - name: m365 setup TENANT_ID
-        run: |
-          m365 cli config set --key clientSecret --value '${{ vars.APP_SECRET }}'
+      - name: Login to Microsoft 365 using Federated Identity
+        uses: pnp/action-cli-login@v3
+        with:
+          TENANT: ${{ vars.TENANT_ID }}
+          APP_ID: ${{ vars.APP_ID }}
+          AUTH_TYPE: federatedIdentity
 
-      - name: Authenticate to Azure
-        run: |
-          m365 login --authType password --userName ${{ vars.SVC_USER }} --password ${{ vars.SVC_PASSWORD }}
-
-      - name: Publish
-        run: |
-          m365 spo app add --filePath src/sharepoint/solution/helloworld.sppkg --overwrite --debug
+      - name: Deploy SPFx package using CLI
+        uses: pnp/action-cli-deploy@v5
+        with:
+          APP_FILE_PATH: src/sharepoint/solution/TherapyGenieProd.sppkg
+          SKIP_FEATURE_DEPLOYMENT: true
+          OVERWRITE: true
       
    
 
