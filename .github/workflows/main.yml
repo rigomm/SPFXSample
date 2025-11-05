@@ -42,14 +42,9 @@ jobs:
         run: |
           npm run build:dev
 
-
-      - name: Setup Microsoft 365 CLI
-        run: |
-          m365 setup --appId ${{ vars.APP_ID }}
-
       - name: Authenticate to Azure
         run: |
-          m365 login --authType password --userName ${{ vars.SVC_USER }} --password ${{ vars.SVC_PASSWORD }}
+          m365 login --authType password --userName ${{ vars.SVC_USER }} --password ${{ vars.SVC_PASSWORD }} --appId ${{ vars.APP_ID }}
 
       - name: Authenticate to Azure
         run: |
