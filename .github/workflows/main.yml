@@ -38,22 +38,16 @@ jobs:
         working-directory: ./src
         run: |
           npm run build:dev
+
+      - name: Authenticate to Azure
+        run: |
+          m365 login --authType password --userName ${{ vars.SVC_USER }} --password ${{ vars.SVC_PASSWORD }}
+
+      - name: Authenticate to Azure
+        run: |
+          m365 spo app add --filePath src/sharepoint/solution/TherapyGenieProd.sppkg --overwrite
       
-      - name: Login to Microsoft 365 using Federated Identity
-        uses: pnp/action-cli-login@v3
-        with:
-          TENANT: ${{ vars.TENANT_ID }}
-          APP_ID: ${{ vars.APP_ID }}
-          ADMIN_USERNAME:  ${{ vars.SVC_USER }}
-          ADMIN_PASSWORD:  ${{ vars.SVC_PASSWORD }}
+   
 
-
-
-      - name: Deploy SPFx package using CLI
-        uses: pnp/action-cli-deploy@v5
-        with:
-          APP_FILE_PATH: src/sharepoint/solution/TherapyGenieProd.sppkg
-          SKIP_FEATURE_DEPLOYMENT: true
-          OVERWRITE: true
 
 
