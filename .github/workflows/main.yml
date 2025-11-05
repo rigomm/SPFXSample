@@ -50,7 +50,7 @@ jobs:
 
       - name: Authenticate to Azure
         run: |
-          m365 login --authType password --userName ${{ vars.APP_ID }} --tenant ${{ vars.TENANT_ID }} --password  ${{vars.APP_SECRET}}
+          m365 login --authType password --userName ${{ vars.APP_ID }} --tenant ${{ vars.TENANT_ID }} --password  ${{vars.APP_SECRET}} --appId ${{ vars.APP_ID }}
       
       - name: Publish Teams App
         run: |
