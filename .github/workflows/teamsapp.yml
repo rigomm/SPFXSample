@@ -47,7 +47,7 @@ jobs:
       - name: Create zip package
         run: |
           mkdir -p output
-          zip -r output/teams-app-package.zip appPackage/manifest.json appPackage/color.png appPackage/outline.png
+          zip -j output/teams-app-package.zip appPackage/manifest.json appPackage/color.png appPackage/outline.png
 
       - name: Authenticate to Azure
         run: |
