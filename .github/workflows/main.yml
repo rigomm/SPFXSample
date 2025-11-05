@@ -12,12 +12,11 @@ permissions:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    environment: 
-      CURRENT_ENV:${{ github.event.inputs.environment || (github.ref == 'refs/heads/main' && 'prod') || 'dev' }}
+    environment: ${{ github.event.inputs.environment || (github.ref == 'refs/heads/main' && 'prod') || 'dev' }}
   
     steps:
       - name: Show current environment
-        run: echo "Current environment is $CURRENT_ENV"
+        run: echo "Current environment is ${{ github.event.inputs.environment }}"
 
       - name: Checkout code
         uses: actions/checkout@v3
@@ -41,7 +40,7 @@ jobs:
       - name: Build SPFx project
         working-directory: ./src
         run: |
-          npm run build:${{ github.environment }}
+          npm run build:${{ github.event.inputs.environment }}
 
       - name: Login to Microsoft 365 using Federated Identity
         uses: pnp/action-cli-login@v3
