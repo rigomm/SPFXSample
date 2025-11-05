@@ -44,7 +44,7 @@ jobs:
 
       - name: m365 setup
         run: |
-          m365 cli config set --key 'app-id' --value '${{ vars.APP_ID }}'
+          m365 cli config set --key 'clientId' --value '${{ vars.APP_ID }}'
 
       - name: Authenticate to Azure
         run: |
