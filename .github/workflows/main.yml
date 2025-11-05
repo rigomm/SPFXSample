@@ -43,7 +43,6 @@ jobs:
         uses: pnp/action-cli-login@v3
         with:
           TENANT: ${{ vars.TENANT_ID }}
-          APP_ID: ${{ vars.APP_ID }}
           ADMIN_USERNAME:  ${{ vars.SVC_USER }}
           ADMIN_PASSWORD:  ${{ vars.SVC_PASSWORD }}
 
