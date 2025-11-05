@@ -12,29 +12,25 @@ permissions:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    environment: dev
+    environment: ${{ github.event.inputs.environment || (github.ref == 'refs/heads/main' && 'prod') || 'dev' }}
+  
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-          
+
       - name: Setup Node.js 20
         uses: actions/setup-node@v3
         with:
           node-version: '20'
 
-      - name: Show environment vars
-        run: |
-          echo "Tenant: ${{ vars.TENANT_ID }}"
-          echo "App_ID ${{ vars.APP_ID }}"
-
       - name: Install dotenv-cli
         working-directory: ./src
         run: npm install dotenv-cli
 
-      - name: Install Teams Toolkit CLI
-        run: npm install -g @pnp/cli-microsoft365
-
       - name: Install dependencies
+        run: npm install
+
+      - name: Install dependencies src
         working-directory: ./src
         run: npm install
 
@@ -42,24 +38,22 @@ jobs:
         working-directory: ./src
         run: |
           npm run build:dev
-
-      - name: Create zip package
-        run: |
-          mkdir -p output
-          zip -r output/teams-app-package.zip appPackage/manifest.json appPackage/icons/
-
-      - name: Authenticate to Azure
-        run: |
-          m365 login --authType federatedIdentity  --appId ${{ vars.APP_ID }} --tenant ${{ vars.TENANT_ID }}
       
-      - name: Publish Teams App
-        run: |
-          m365 teams app publish --filePath output/teams-app-package.zip --verbose
+      - name: Login to Microsoft 365 using Federated Identity
+        uses: pnp/action-cli-login@v3
+        with:
+          TENANT: ${{ vars.TENANT_ID }}
+          APP_ID: ${{ vars.APP_ID }}
+          ADMIN_USERNAME:  ${{ vars.SVC_USER }}
+          ADMIN_PASSWORD:  ${{ vars.SVC_PASSWORD }}
 
 
 
+      - name: Deploy SPFx package using CLI
+        uses: pnp/action-cli-deploy@v5
+        with:
+          APP_FILE_PATH: src/sharepoint/solution/TherapyGenieProd.sppkg
+          SKIP_FEATURE_DEPLOYMENT: true
+          OVERWRITE: true
 
 
-
-
-     
