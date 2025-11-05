@@ -37,7 +37,7 @@ jobs:
       - name: Build SPFx project
         working-directory: ./src
         run: |
-          npm run build:${{ github.environment }
+          npm run build:${{ github.environment }}
 
       - name: Login to Microsoft 365 using Federated Identity
         uses: pnp/action-cli-login@v3
