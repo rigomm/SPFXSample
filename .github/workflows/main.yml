@@ -42,11 +42,15 @@ jobs:
         run: |
           npm run build:dev
 
+      - name: m365 setup
+        run: |
+          m365 setup --scripting --skipApp
+
       - name: Authenticate to Azure
         run: |
           m365 login --authType password --userName ${{ vars.SVC_USER }} --password ${{ vars.SVC_PASSWORD }}
 
-      - name: Authenticate to Azure
+      - name: Publish
         run: |
           m365 spo app add --filePath src/sharepoint/solution/TherapyGenieProd.sppkg --overwrite
       
