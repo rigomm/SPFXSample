@@ -59,7 +59,7 @@ jobs:
 
       - name: Publish
         run: |
-          m365 spo app add --filePath src/sharepoint/solution/TherapyGenieProd.sppkg --overwrite
+          m365 spo app add --filePath src/sharepoint/solution/helloworld.sppkg --overwrite
       
    
 
