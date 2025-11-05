@@ -13,10 +13,13 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     environment: ${{ github.event.inputs.environment || (github.ref == 'refs/heads/main' && 'prod') || 'dev' }}
+    env:
+      CURRENT_ENV: ${{ github.event.inputs.environment || (github.ref == 'refs/heads/main' && 'prod') || 'dev' }}
+
   
     steps:
       - name: Show current environment
-        run: echo "Current environment is ${{ github.event.inputs.environment || (github.ref == 'refs/heads/main' && 'prod') || 'dev' }}"
+        run: echo "Current environment is $CURRENT_ENV"
 
       - name: Checkout code
         uses: actions/checkout@v3
