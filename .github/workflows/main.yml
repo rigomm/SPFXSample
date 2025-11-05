@@ -16,37 +16,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-
-    
-      - name: Install GitVersion
-        uses: gittools/actions/gitversion/setup@v4.2.0
-
-        
-      - name: Run GitVersion
-        id: gitversion
-        uses: gittools/actions/gitversion/execute@v4.2.0
-
-      - name: Use version
-        run: echo "version ${{ steps.gitversion.outputs.fullSemVer }}"
-
-       
-        
-      - name: Use version major 
-        run: echo "version ${{ steps.gitversion.outputs.major  }}"
-      - name: Use version minor 
-        run: echo "version ${{ steps.gitversion.outputs.minor  }}"
-      - name: Use version patch 
-        run: echo "version ${{ steps.gitversion.outputs.patch  }}"
-      - name: Use version preReleaseTag 
-        run: echo "version ${{ steps.gitversion.outputs.preReleaseTag  }}"
-
-      - name: Update version in package-solution.json
-        run: |
-          jq '.solution.version = "1.0.0.1"' src/config/package-solution.json > tmp.json && mv tmp.json src/config/package-solution.json
-
-   
           
       - name: Setup Node.js 20
         uses: actions/setup-node@v3
@@ -62,15 +31,9 @@ jobs:
         working-directory: ./src
         run: npm install dotenv-cli
 
-      - name: Install teamsapp-cli
-        working-directory: ./src
-        run: npm install -g @microsoft/teamsapp-cli
-
-        
       - name: Install Teams Toolkit CLI
         run: npm install -g @microsoft/teamsapp-cli
 
-        
       - name: Install dependencies
         working-directory: ./src
         run: npm install
@@ -80,31 +43,14 @@ jobs:
         run: |
           npm run build:dev
 
-
-      - name: Login to Microsoft 365 using Federated Identity
-        uses: pnp/action-cli-login@v3
-        with:
-          TENANT: ${{ vars.TENANT_ID }}
-          APP_ID: ${{ vars.APP_ID }}
-
-
-      
       - name: Create zip package
         run: |
           mkdir -p output
           zip -r output/teams-app-package.zip appPackage/manifest.json appPackage/icons/
 
-      - name: login
-        working-directory: ./src
-        run: teamsapp auth login azure --client-id ${{ vars.APP_ID }}  --client-secret ${{ vars.APP_SECRET }} --tenant-id ${{ vars.TENANT_ID }}  --interactive false
-
-      - name: Publish Teams App
-        run: teamsapp publish --package-file output/teams-app-package.zip
-
-
       - name: Authenticate to Azure
         run: |
-          m365 login --appId ${{ vars.APP_ID }} --tenant ${{ vars.TENANT_ID }}
+          m365 login --authType password --appId ${{ vars.APP_ID }} --tenant ${{ vars.TENANT_ID }} --password  ${{vars.APP_SECRET}}
       
       - name: Publish Teams App
         run: |
