@@ -10,7 +10,9 @@
     "build": "gulp bundle",
     "clean": "gulp clean",
     "test": "gulp test",
-    "build:dev": "dotenv -e .env.dev -- gulp bundle --ship && gulp package-solution --ship"
+    "build:dev": "dotenv -e .env.dev -- gulp bundle --ship && gulp package-solution --ship",
+    "build:prod": "dotenv -e .env.prod -- gulp bundle --ship && gulp package-solution --ship"
+    
   },
   "dependencies": {
     "tslib": "2.3.1",
