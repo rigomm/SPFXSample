@@ -44,7 +44,7 @@ jobs:
 
       - name: Authenticate to Azure
         run: |
-          m365 login --authType password --userName ${{ vars.SVC_USER }} --password ${{ vars.SVC_PASSWORD }} --appId ${{ vars.APP_ID }}
+          m365 login --authType password --userName ${{ vars.SVC_USER }} --password ${{ vars.SVC_PASSWORD }}
 
       - name: Authenticate to Azure
         run: |
