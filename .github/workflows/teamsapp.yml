@@ -19,5 +19,42 @@ jobs:
       CURRENT_ENV: ${{ github.event.inputs.environment }}
 
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
       - name: Selected Environment
         run: echo ${{ github.event.inputs.environment }}
+        
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Install Microsoft 365 CLI
+        run: npm install -g @pnp/cli-microsoft365
+
+      - name: m365 setup APP_ID
+        run: |
+          m365 cli config set --key clientId --value '${{ vars.APP_ID }}'
+      - name: m365 setup
+        run: |
+          m365 cli config set --key tenantId --value '${{ vars.TENANT_ID }}'
+      
+      - name: m365 setup TENANT_ID
+        run: |
+          m365 cli config set --key clientSecret --value '${{ vars.APP_SECRET }}'
+
+      - name: Create zip package
+        run: |
+          mkdir -p output
+          zip -r output/teams-app-package.zip appPackage/manifest.json appPackage/icons/
+
+      - name: Authenticate to Azure
+        run: |
+          m365 login --authType password --userName ${{ vars.SVC_USER }} --password ${{ vars.SVC_PASSWORD }}
+
+      - name: Publish Teams App
+        run: |
+          m365 teams app publish --filePath output/teams-app-package.zip --verbose
+
+          
