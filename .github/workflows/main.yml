@@ -42,9 +42,16 @@ jobs:
         run: |
           npm run build:dev
 
+      - name: m365 setup APP_ID
+        run: |
+          m365 cli config set --key clientId --value '${{ vars.APP_ID }}'
       - name: m365 setup
         run: |
-          m365 cli config set --key 'clientId' --value '${{ vars.APP_ID }}'
+          m365 cli config set --key tenantId --value '${{ vars.TENANT_ID }}'
+      
+      - name: m365 setup TENANT_ID
+        run: |
+          m365 cli config set --key clientSecret --value '${{ vars.APP_SECRET }}'
 
       - name: Authenticate to Azure
         run: |
