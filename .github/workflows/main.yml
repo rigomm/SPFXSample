@@ -32,7 +32,7 @@ jobs:
         run: npm install dotenv-cli
 
       - name: Install Teams Toolkit CLI
-        run: npm install -g @microsoft/teamsapp-cli
+        run: npm install -g @pnp/cli-microsoft365
 
       - name: Install dependencies
         working-directory: ./src
