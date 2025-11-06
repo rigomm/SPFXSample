@@ -53,4 +53,4 @@ jobs:
 
       - name: Publish Teams App
         run: |
-          m365 teams app publish --filePath appPackage/build/appPackage.${{ github.event.inputs.environment }}.zip --verbose
+          m365 teams app update --filePath appPackage/build/appPackage.${{ github.event.inputs.environment }}.zip
