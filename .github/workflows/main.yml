@@ -1,0 +1,65 @@
+name: Deploy SPFx to App Catalog
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.environment || (github.ref == 'refs/heads/main' && 'prod') || 'dev' }}
+    env:
+      CURRENT_ENV: ${{ github.event.inputs.environment || (github.ref == 'refs/heads/main' && 'prod') || 'dev' }}
+
+  
+    steps:
+      - name: Show current environment
+        run: echo "Current environment is $CURRENT_ENV"
+
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Install dotenv-cli
+        working-directory: ./src
+        run: npm install dotenv-cli
+        
+      - name: Install dependencies
+        run: npm install
+
+      - name: Install dependencies src
+        working-directory: ./src
+        run: npm install
+
+      - name: Build SPFx project
+        working-directory: ./src
+        run: |
+          npm run build:$CURRENT_ENV
+
+      - name: Login to Microsoft 365 using Federated Identity
+        uses: pnp/action-cli-login@v3
+        with:
+          TENANT: ${{ vars.TENANT_ID }}
+          APP_ID: ${{ vars.APP_ID }}
+          AUTH_TYPE: federatedIdentity
+
+      - name: Deploy SPFx package using CLI
+        uses: pnp/action-cli-deploy@v5
+        with:
+          APP_FILE_PATH: src/sharepoint/solution/TherapyGenieProd.sppkg
+          SKIP_FEATURE_DEPLOYMENT: true
+          OVERWRITE: true
+      
+   
+
+
+

@@ -1,0 +1,56 @@
+name: Manual Deploy Teams APP
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Select environment'
+        required: true
+        default: 'dev'
+        type: choice
+        options:
+          - dev
+          - prod
+
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.environment }}
+    env:
+      CURRENT_ENV: ${{ github.event.inputs.environment }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Selected Environment
+        run: echo ${{ github.event.inputs.environment }}
+        
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Install Microsoft 365 CLI
+        run: npm install -g @pnp/cli-microsoft365
+       
+      - name: Install Microsoft 365 Agent Toolkit CLI
+        run: npm install -g @microsoft/m365agentstoolkit-cli
+
+      - name: m365 setup APP_ID
+        run: |
+          m365 cli config set --key clientId --value '${{ vars.APP_ID }}'
+      - name: m365 setup TENANT_ID
+        run: |
+          m365 cli config set --key tenantId --value '${{ vars.TENANT_ID }}'
+      
+      - name: Atk package
+        run: atk package --env ${{ github.event.inputs.environment }}
+
+      - name: Authenticate to Azure
+        run: |
+          m365 login --authType password --userName ${{ secrets.SVC_USER }} --password ${{ secrets.SVC_PASSWORD }}
+
+      - name: Publish Teams App
+        run: |
+          m365 teams app update --filePath appPackage/build/appPackage.${{ github.event.inputs.environment }}.zip --id 9150ffc2-ff68-4496-9198-0155e098601f
