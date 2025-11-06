@@ -2,7 +2,7 @@
     "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.19/MicrosoftTeams.schema.json",
     "manifestVersion": "1.19",
     "id": "${{TEAMS_APP_ID}}",
-    "version": "1.0.0",
+    "version": "1.0.5",
     "developer": {
         "name": "SPFx + Teams Dev",
         "websiteUrl": "https://products.office.com/en-us/sharepoint/collaboration",
