@@ -32,6 +32,12 @@ jobs:
 
       - name: Install Microsoft 365 CLI
         run: npm install -g @pnp/cli-microsoft365
+       
+      - name: Install Microsoft 365 Agent Toolkit CLI
+        run: npm install -g @microsoft/m365agentstoolkit-cli
+
+      - name: Atk
+        run: atk -h
 
       - name: m365 setup APP_ID
         run: |
