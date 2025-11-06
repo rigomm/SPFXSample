@@ -11,6 +11,7 @@ on:
           - dev
           - prod
 
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -39,11 +40,11 @@ jobs:
       - name: m365 setup APP_ID
         run: |
           m365 cli config set --key clientId --value '${{ vars.APP_ID }}'
-      - name: m365 setup
+      - name: m365 setup TENANT_ID
         run: |
           m365 cli config set --key tenantId --value '${{ vars.TENANT_ID }}'
       
-      - name: m365 setup TENANT_ID
+      - name: m365 setup APP_SECRET
         run: |
           m365 cli config set --key clientSecret --value '${{ secrets.APP_SECRET }}'
 
@@ -57,5 +58,3 @@ jobs:
       - name: Publish Teams App
         run: |
           m365 teams app publish --filePath appPackage/build/appPackage.${{ github.event.inputs.environment }}.zip --verbose
-
-          
