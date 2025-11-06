@@ -44,10 +44,6 @@ jobs:
         run: |
           m365 cli config set --key tenantId --value '${{ vars.TENANT_ID }}'
       
-      - name: m365 setup APP_SECRET
-        run: |
-          m365 cli config set --key clientSecret --value '${{ secrets.APP_SECRET }}'
-
       - name: Atk package
         run: atk package --env ${{ github.event.inputs.environment }}
 
