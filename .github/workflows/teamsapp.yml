@@ -36,9 +36,6 @@ jobs:
       - name: Install Microsoft 365 Agent Toolkit CLI
         run: npm install -g @microsoft/m365agentstoolkit-cli
 
-      - name: Atk
-        run: atk -h
-
       - name: m365 setup APP_ID
         run: |
           m365 cli config set --key clientId --value '${{ vars.APP_ID }}'
@@ -50,10 +47,8 @@ jobs:
         run: |
           m365 cli config set --key clientSecret --value '${{ vars.APP_SECRET }}'
 
-      - name: Create zip package
-        run: |
-          mkdir -p output
-          zip -j output/teams-app-package.zip appPackage/manifest.json appPackage/color.png appPackage/outline.png
+      - name: Atk package
+        run: atk package --env ${{ github.event.inputs.environment }}
 
       - name: Authenticate to Azure
         run: |
@@ -61,6 +56,6 @@ jobs:
 
       - name: Publish Teams App
         run: |
-          m365 teams app publish --filePath output/teams-app-package.zip --verbose
+          m365 teams app publish --filePath appPackage/appPackage.${{ github.event.inputs.environment }}.zip --verbose
 
           
